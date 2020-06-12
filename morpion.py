@@ -32,7 +32,7 @@ class Morpion:
     def randomPlay(self, player):
         emptyCase = [(x, y) for x in range(self.h) for y in range(self.w) if self.table[x][y] == ' ']
         x, y = random.choice(emptyCase)
-        print(f"L'ordinateur vient de mettre le pion sur la case ligne {x + 1} colonne {y + 1}")
+        print(f"{player.name} vient de mettre le pion sur la case ligne {x + 1} colonne {y + 1}")
         self.table[x][y] = player.label
 
     def computerPlay(self, player1, player2):
@@ -44,7 +44,7 @@ class Morpion:
                 if (self.table[i].count(player.label) == self.h - 1) and (' ' in self.table[i]):
                     index = self.table[i].index(' ')
                     print(
-                        f"L'ordinateur vient de mettre le pion sur la case ligne {i + 1} colonne {index + 1}")
+                        f"{player1.name} vient de mettre le pion sur la case ligne {i + 1} colonne {index + 1}")
                     self.table[i][index] = player1.label
 
                     return
@@ -56,24 +56,24 @@ class Morpion:
                 if (colonnes.count(player.label) == self.h - 1) and (' ' in colonnes):
                     index = colonnes.index(' ')
                     print(
-                        f"L'ordinateur vient de mettre le pion sur la case ligne {index + 1} colonne {j + 1}")
+                        f"{player1.name} vient de mettre le pion sur la case ligne {index + 1} colonne {j + 1}")
                     self.table[index][j] = player1.label
                     return
 
             diagonal1 = [self.table[x][y] for x in range(self.h) for y in range(self.w) if x + y == (self.h - 1)]
             if (diagonal1.count(player.label) == self.h - 1) and (' ' in diagonal1):
                 index = diagonal1.index(' ')
-                print(f"L'ordinateur vient de mettre le pion sur la case ligne {index +1} colonne {self.h  - index}")
+                print(f"{player1.name} vient de mettre le pion sur la case ligne {index +1} colonne {self.h  - index}")
                 self.table[index][self.h - 1 - index] = player1.label
                 return
 
             diagonal2 = [self.table[x][y] for x in range(self.h) for y in range(self.w) if x == y]
             if (diagonal2.count(player.label) == self.h - 1) and (' ' in diagonal2):
                 index = diagonal2.index(' ')
-                print(f"L'ordinateur vient de mettre le pion sur la case ligne {index + 1} colonne {index +1}")
+                print(f"{player1.name} vient de mettre le pion sur la case ligne {index + 1} colonne {index +1}")
                 self.table[index][index] = player1.label
                 return
-            
+
         self.randomPlay(player1)
 
     def isWin(self, joueurs):
@@ -124,7 +124,7 @@ class Joueur:
             y = self.inputUser("Veuillez entrer le numéro de la colonne", morpion)
             if morpion.isSecure(x - 1, y - 1):
                 morpion.update(x - 1, y - 1, self)
-                print(f"Vous venez de mettre le pion sur la case ligne {x} colonne {y}")
+                print(f"{self.name} vient de mettre le pion sur la case ligne {x} colonne {y}")
                 return
             else:
                 print("La case est déjà remplie, merci de réessayer! ")
@@ -154,8 +154,8 @@ def play(morpion, players):
 
 def main():
     morpion = Morpion(3)
-    joueur1 = Joueur("Joueur 1", 'X', False)
-    joueur2 = Joueur("Ordinateur", 'O', True)
+    joueur1 = Joueur("Joueur 1", 'O', False)
+    joueur2 = Joueur("Ordinateur", 'X', False)
     players = [joueur1, joueur2]
     play(morpion, players)
 
