@@ -5,7 +5,6 @@ Le gagnant est celui qui arrive à aligner trois symboles identiques, horizontal
 
 import random
 
-
 class Morpion:
     def __init__(self, length):
         self.table = [[' ' for _ in range(length)] for _ in range(length)]
@@ -19,9 +18,10 @@ class Morpion:
         self.table[x][y] = player.label
 
     def printTable(self):
+
         for ligne in self.table:
-            print(ligne)
-        print()
+            new_ligne = '|'+''.join([ele+'|' for ele in ligne])
+            print(new_ligne)
 
     def isFull(self):
         for array in self.table:
@@ -32,43 +32,48 @@ class Morpion:
     def randomPlay(self, player):
         emptyCase = [(x, y) for x in range(self.h) for y in range(self.w) if self.table[x][y] == ' ']
         x, y = random.choice(emptyCase)
+        print(f"L'ordinateur vient de mettre le pion sur la case ligne {x + 1} colonne {y + 1}")
         self.table[x][y] = player.label
 
     def computerPlay(self, player1, player2):
         liste_players = [player1, player2]
         for player in liste_players:
 
+            liste_ran = random.sample(range(self.h), self.h)
             for i in range(self.h):
                 if (self.table[i].count(player.label) == self.h - 1) and (' ' in self.table[i]):
                     index = self.table[i].index(' ')
-                    self.table[i][index] = player1.label
                     print(
                         f"L'ordinateur vient de mettre le pion sur la case ligne {i + 1} colonne {index + 1}")
+                    self.table[i][index] = player1.label
+
                     return
 
-            for j in range(self.w):
+            liste_ran = random.sample(range(self.w),self.w)
+            for j in liste_ran:
                 colonnes = [row[j] for row in self.table]
 
                 if (colonnes.count(player.label) == self.h - 1) and (' ' in colonnes):
                     index = colonnes.index(' ')
-                    self.table[index][j] = player1.label
                     print(
                         f"L'ordinateur vient de mettre le pion sur la case ligne {index + 1} colonne {j + 1}")
+                    self.table[index][j] = player1.label
                     return
 
             diagonal1 = [self.table[x][y] for x in range(self.h) for y in range(self.w) if x + y == (self.h - 1)]
             if (diagonal1.count(player.label) == self.h - 1) and (' ' in diagonal1):
                 index = diagonal1.index(' ')
-                self.table[index][self.h - 1 - index] = player1.label
                 print(f"L'ordinateur vient de mettre le pion sur la case ligne {index +1} colonne {self.h  - index}")
+                self.table[index][self.h - 1 - index] = player1.label
                 return
 
             diagonal2 = [self.table[x][y] for x in range(self.h) for y in range(self.w) if x == y]
             if (diagonal2.count(player.label) == self.h - 1) and (' ' in diagonal2):
                 index = diagonal2.index(' ')
-                self.table[index][index] = player1.label
                 print(f"L'ordinateur vient de mettre le pion sur la case ligne {index + 1} colonne {index +1}")
+                self.table[index][index] = player1.label
                 return
+            
         self.randomPlay(player1)
 
     def isWin(self, joueurs):
